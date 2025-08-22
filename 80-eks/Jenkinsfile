@@ -57,7 +57,7 @@ pipeline {
                 script {
                     withAWS(credentials: 'aws-cli', region: 'us-east-1') {
                         sh """
-                            cd 8-eks
+                            cd 80-eks
                             terraform apply -auto-approve
                         """
                     }
