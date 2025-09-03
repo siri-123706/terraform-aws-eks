@@ -54,6 +54,18 @@ module "eks_node" {
     vpc_id = local.vpc_id
 }
 
+# module "cicd-tools" {
+#     #source = "../../terraform-aws-securitygroup"
+#     source = "git::https://github.com/siri-123706/terraform-aws-securitygroup.git?ref=main"
+#     project = var.project
+#     environment = var.environment
+
+#     sg_name = var.bastion_sg_name
+#     sg_description = var.bastion_sg_description
+#     vpc_id = local.vpc_id
+# }
+
+
 resource "aws_security_group_rule" "ingress_alb_https" {
   type              = "ingress"
   from_port         = 443
@@ -151,5 +163,5 @@ resource "aws_security_group_rule" "eks_node_vpc" {
   to_port           = 0
   protocol          = "-1"
   cidr_blocks = ["10.0.0.0/16"]
-  security_group_id = module.vpn.sg_id
+  security_group_id = module.eks_node.sg_id
 }

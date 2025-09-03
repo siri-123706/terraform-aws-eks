@@ -5,7 +5,7 @@ pipeline {
     environment { 
         appVersion = ''
         REGION = "us-east-1"
-        ACC_ID = "203981192510"
+        ACC_ID = "642314346143"
         PROJECT = "roboshop"
     }
     options {
@@ -25,7 +25,7 @@ pipeline {
         stage('init') {
             steps {
                 script {
-                    withAWS(credentials: 'aws-cli', region: 'us-east-1') {
+                    withAWS(credentials: 'devops', region: 'us-east-1') {
                         sh """
                             cd 80-eks
                             terraform init -reconfigure
@@ -38,7 +38,7 @@ pipeline {
         stage('plan') {
             steps {
                 script {
-                    withAWS(credentials: 'aws-cli', region: 'us-east-1') {
+                    withAWS(credentials: 'devops', region: 'us-east-1') {
                         sh """
                             cd 80-eks
                             terraform plan
@@ -55,7 +55,7 @@ pipeline {
             // }
             steps {
                 script {
-                    withAWS(credentials: 'aws-cli', region: 'us-east-1') {
+                    withAWS(credentials: 'devops', region: 'us-east-1') {
                         sh """
                             cd 80-eks
                             terraform apply -auto-approve

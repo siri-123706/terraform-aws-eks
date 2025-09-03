@@ -7,14 +7,14 @@ module "eks" {
 
   addons = {
     coredns                = {}
-    eks-pod-identity-agent = {
+    eks-pod-identity-agent = { #Enables IAM roles for service accounts (IRSA) via Pod Identity (newer)
       before_compute = true
     }
-    kube-proxy             = {}
-    vpc-cni                = {
+    kube-proxy             = {} #Handles Kubernetes networking
+    vpc-cni                = {  #AWS VPC CNI plugin — allows pods to get IPs from your VPC subnet
       before_compute = true
     }
-    metrics-server= {}
+    metrics-server= {} #Enables resource metrics (CPU/memory) for things like HPA
   }
 
   # Optional
@@ -34,22 +34,22 @@ module "eks" {
 
   # EKS Managed Node Group(s)
   eks_managed_node_groups = {
-   blue = {
-      # Starting on 1.30, AL2023 is the default AMI type for EKS managed node groups
-      ami_type       = "AL2023_x86_64_STANDARD"
-      instance_types = ["m5.xlarge"]
+  blue = {
+    # Starting on 1.30, AL2023 is the default AMI type for EKS managed node groups
+    ami_type       = "AL2023_x86_64_STANDARD"
+    instance_types = ["m5.xlarge"]
 
-      min_size     = 2
-      max_size     = 10
-      desired_size = 2
-      
-      iam_role_additional_policies = {
-            AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
-            AmazonEFSCSIDriverPolicy  = "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy"
-            AmazonEKSLoadBalancingPolicy = "arn:aws:iam::aws:policy/AmazonEKSLoadBalancingPolicy"
-    }
+    min_size     = 2
+    max_size     = 10
+    desired_size = 2
+    
+    iam_role_additional_policies = {
+      AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+      AmazonEFSCSIDriverPolicy  = "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy"
+      AmazonEKSLoadBalancingPolicy = "arn:aws:iam::aws:policy/AmazonEKSLoadBalancingPolicy"
+  }
 
-    }
+  }
   
     #  green = {
     #   # Starting on 1.30, AL2023 is the default AMI type for EKS managed node groups

@@ -8,8 +8,8 @@ resource "aws_instance" "bastion" {
       volume_size = 50
       volume_type = "gp3" # or "gp2", depending on your preference
     }
-    
-  iam_instance_profile = "TerraformAdmin"
+   
+   iam_instance_profile = "TerraformAdmin"
 
   tags = merge(
     local.common_tags,{
